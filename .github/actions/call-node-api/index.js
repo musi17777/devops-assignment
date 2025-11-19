@@ -36,7 +36,7 @@ async function run() {
     const newSection = `${startTag}\n${markdown}\n${endTag}`;
 
     // Replace the old section with the new one
-    // The RegExp finds everything between the two tags and replaces it
+    // The RegExp finds eveSrything between the two tags and replaces it
     const updatedReadme = readmeContent.replace(
       new RegExp(`${startTag}[\\s\\S]*?${endTag}`),
       newSection

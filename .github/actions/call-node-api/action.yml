@@ -1,0 +1,11 @@
+name: "Call Node API"
+description: "Custom GitHub Action that calls a Node.js API and updates README.md"
+
+inputs:
+  api-url:
+    description: "The URL of the API to call"
+    required: true
+
+runs:
+  using: "node16"
+  main: "index.js"
