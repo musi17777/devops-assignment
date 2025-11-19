@@ -1,0 +1,47 @@
+name: "Call Node API and Update README"
+
+on:
+  workflow_dispatch:  # Allows this workflow to be run manually from GitHub
+
+jobs:
+  call-api:
+    runs-on: ubuntu-latest  # The virtual machine where the workflow runs
+
+    permissions:
+      contents: write  # Needed so the workflow can update and push the README
+
+    steps:
+      # Step 1: Download the repository files
+      - name: Checkout repository
+        uses: actions/checkout@v3  # Action that clones the code from GitHub into the workflow machine
+
+      # Step 2: Install Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v4  # Action that installs Node.js on the workflow machine
+        with:
+          node-version: 16  # Specifies which Node.js version to install
+
+      # Step 3: Install all required dependencies
+      - name: Install dependencies
+        run: npm install  # Reads package.json and installs all needed packages
+
+      # Step 4: Start the Node.js API in the background and wait for it to be ready
+      - name: Start API server
+        run: |
+          npm start &    
+          sleep 5        
+
+      # Step 5: Run the custom GitHub Action that calls the API
+      - name: Run custom Node API Action
+        uses: ./.github/actions/call-node-api  # Runs the Action from this repository
+        with:
+          api-url: http://localhost:3000/status  # URL of the running API
+
+      # Step 6: Commit and push the updated README file
+      - name: Commit and push README update
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "Auto-update README with API status" || echo "No changes to commit"
+          git push
