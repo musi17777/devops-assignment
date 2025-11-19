@@ -1,0 +1,13 @@
+{
+  "name": "devops-assignment",
+  "version": "1.0.0",
+  "description": "Node.js API for DevOps home assignment",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "keywords": [],
+  "author": "Netanel Musaev",
+  "license": "MIT"
+}
